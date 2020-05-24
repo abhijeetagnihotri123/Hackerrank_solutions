@@ -1,0 +1,44 @@
+
+    if(typeid(*spell)==typeid(Fireball))
+    {   
+        ((Fireball*)spell)->revealFirepower();
+    }
+    else if(typeid(*spell)==typeid(Frostbite))
+    {
+        ((Frostbite*)spell)->revealFrostpower();
+    }
+    else if(typeid(*spell)==typeid(Waterbolt))
+    {
+        ((Waterbolt*)spell)->revealWaterpower();
+    }
+    else if(typeid(*spell)==typeid(Thunderstorm))
+    {
+        ((Thunderstorm*)spell)->revealThunderpower();
+    }
+    else
+    {   
+        string b=SpellJournal::journal;
+        string a=spell->revealScrollName();
+        int n=a.length();
+        int m=b.length();
+        vector<vector<int>>L(n+1,vector<int>(m+1));
+        for(int i=0;i<=n;i++)
+        {
+            for(int j=0;j<=m;j++)
+            {
+                if(i==0 || j==0)
+                {
+                    L[i][j]=0;
+                }
+                else if(a[i-1]==b[j-1])
+                {
+                    L[i][j]=L[i-1][j-1]+1;
+                }
+                else 
+                {
+                    L[i][j]=max(L[i-1][j],L[i][j-1]);
+                }
+            }
+        }
+        cout<<L[n][m]<<endl;
+    }
