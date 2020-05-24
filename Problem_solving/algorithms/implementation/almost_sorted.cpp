@@ -8,11 +8,6 @@ vector<string> split_string(string);
 void almostSorted(vector<int> a) {
 
     int n = a.size();
-    if(n==100000 && ((a[0]==3 && a[1]==31) || (a[0]=3 && a[1]==35)))
-    {
-        cout<<"no"<<endl;
-        return ;
-    }
     if(n==2)
     {
         if(a[0]<=a[1])
