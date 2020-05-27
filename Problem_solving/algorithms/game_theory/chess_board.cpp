@@ -4,71 +4,43 @@ using namespace std;
 
 vector<string> split_string(string);
 
-// Complete the beautifulPairs function below.
-int beautifulPairs(vector<int> A, vector<int> B) {
+// Complete the chessboardGame function below.
+string chessboardGame(int x, int y) {
 
-    int n=A.size();
-    map<int,int>m1;
-    map<int,int>m2;
-    for(int i=0;i<n;i++)
+    string result;
+    if(x%4==0 || x%4==3 || y%4==0 || y%4==3)
     {
-        m1[A[i]]++;
-        m2[B[i]]++;
-    }
-    int c=0;
-    auto it = m1.begin();
-    for(int i=0;i<n;i++)
-    {
-        c+=min(m1[A[i]],m2[A[i]]);
-        m1[A[i]]=0;
-    }
-    if(c==n)
-    {
-        return c-1;
+        result="First";
     }
     else
     {
-    return c+1;
+        result="Second";
     }
+    return result;
 }
 
 int main()
 {
     ofstream fout(getenv("OUTPUT_PATH"));
 
-    int n;
-    cin >> n;
+    int t;
+    cin >> t;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    string A_temp_temp;
-    getline(cin, A_temp_temp);
+    for (int t_itr = 0; t_itr < t; t_itr++) {
+        string xy_temp;
+        getline(cin, xy_temp);
 
-    vector<string> A_temp = split_string(A_temp_temp);
+        vector<string> xy = split_string(xy_temp);
 
-    vector<int> A(n);
+        int x = stoi(xy[0]);
 
-    for (int i = 0; i < n; i++) {
-        int A_item = stoi(A_temp[i]);
+        int y = stoi(xy[1]);
 
-        A[i] = A_item;
+        string result = chessboardGame(x, y);
+
+        fout << result << "\n";
     }
-
-    string B_temp_temp;
-    getline(cin, B_temp_temp);
-
-    vector<string> B_temp = split_string(B_temp_temp);
-
-    vector<int> B(n);
-
-    for (int i = 0; i < n; i++) {
-        int B_item = stoi(B_temp[i]);
-
-        B[i] = B_item;
-    }
-
-    int result = beautifulPairs(A, B);
-
-    fout << result << "\n";
 
     fout.close();
 
