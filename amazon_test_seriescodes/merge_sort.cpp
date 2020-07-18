@@ -25,7 +25,8 @@ void mergesort(int *A,int l,int r)
 {
     if(l<r)
     {
-        int m = (l+r)/2;
+        int m = (l+r);
+        m = (m>>1);
         mergesort(A,l,m);
         mergesort(A,m+1,r);
         merge(A,l,m,r);
