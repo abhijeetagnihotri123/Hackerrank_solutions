@@ -4,7 +4,6 @@ using namespace std;
 
 vector<string> split_string(string);
 
-// Complete the largestRectangle function below.
 long largestRectangle(vector<int> a) {
     stack<int>stack;
     int i = 0;

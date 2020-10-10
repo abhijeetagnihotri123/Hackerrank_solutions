@@ -1,69 +1,61 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
-string longestPalindrome(string);
+string Longest_palindrome(string&);
 
-// Your code will be pasted here
-
-int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        string str;
-        cin >> str;
-        cout << longestPalindrome(str) << endl;
-    }
-    return 0;
-}
-
-string longestPalindrome(string s)
+int main()
 {
-    int n = s.length();
-    int maxLength = 1;
-    int start;
-    bool dp[n][n];
-    for(int i=0;i<n;i++)
-    {   
-        for(int j=0;j<n;j++)
-        {   
-            dp[i][j] = false;
-            dp[i][i] = true;
-        }
-    }
-    for(int i=0;i<n-1;i++)
+    int t;
+    cin>>t;
+    string s;
+    while(t--)
     {
-        if(s[i] == s[i+1])
-        {   start = i;
-            dp[i][i+1] = true;
-            maxLenghth = 2;
-        }
-        else
-        {
-            dp[i][i+1] = false;
-        }
-        
+        cin>>s;
+        cout<<Longest_palindrome(s)<<endl;
     }
-    for(int k=3;k<=n;k++)
-    {
-        for(int i=0;i<n-k+1;i++)
-        {
-            int j = i+k-1;
-            if(dp[i+1][j-1] && s[i] == s[j])
-            {
-                dp[i][j] = true;
-                if(maxLength < k)
-                {
-                    maxLength = k;
-                    start = i;
-                }
-            }
-        }
-    }
-    string str = "";
+}
+string Longest_palindrome(string &str)
+{
+    int n = str.size(); 
+  
+    bool table[n][n]; 
+  
+    memset(table, 0, sizeof(table)); 
+  
+    int maxLength = 1; 
+  
+    for (int i = 0; i < n; ++i) 
+        table[i][i] = true; 
+  
+    int start = 0; 
+    for (int i = 0; i < n - 1; ++i) { 
+        if (str[i] == str[i + 1]) { 
+            table[i][i + 1] = true; 
+            start = i; 
+            maxLength = 2; 
+        } 
+    } 
+    for (int k = 3; k <= n; ++k) { 
+        for (int i = 0; i < n - k + 1; ++i) { 
+            int j = i + k - 1; 
+  
+            // checking for sub-string from ith index to 
+            // jth index iff str[i+1] to str[j-1] is a 
+            // palindrome 
+            if (table[i + 1][j - 1] && str[i] == str[j]) { 
+                table[i][j] = true; 
+  
+                if (k > maxLength) { 
+                    start = i; 
+                    maxLength = k; 
+                } 
+            } 
+        } 
+    } 
+    string s = "";
     if(maxLength == 1)
     {
-        str = s[0];
+        s = str[0];
     }
     else if(maxLength == 2)
     {
@@ -71,8 +63,8 @@ string longestPalindrome(string s)
         {
             if(str[i] == str[i+1])
             {
-                str+=s[i];
-                str+=s[i+1];
+                s+=str[i];
+                s+=str[i+1];
                 break;
             }
         }

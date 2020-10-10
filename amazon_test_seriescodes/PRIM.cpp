@@ -6,30 +6,13 @@ int spanningTree(int,int,vector<vector<int>>&);
 int main()
 {
     int t;
-    // cin>>t;
-    // while(t--)
-    // {
-    //     int V,E,E1;
-    //     cin>>V>>E;
-    //     vector<vector<int>>graph(V,vector<int>(V,0));
-    //     E1 = E;
-    //     while(E1--)
-    //     {
-    //         int u,v,w;
-    //         cin>>u>>v>>w;
-    //         u--;
-    //         v--;
-    //         graph[u][v]=w;
-    //         graph[v][u]=w;
-    //     }
-    //     cout<<spanningTree(V,E,graph)<<endl;
     int V = 6;
     int graph1[V][V] = { {0, 4, 6, 0, 0, 0},
 						{4, 0, 6, 3, 4, 0},
 						{6, 6, 0, 1, 8, 0},
 						{0, 3, 1, 0, 2, 3},
 						{0, 4, 8, 2, 0, 7},
-						{0, 0, 0, 3, 7, 0} };
+						{0, 0, 0, 3, 7, 0}};
     vector<vector<int>>graph(V,vector<int>(V,0));
     for(int i=0;i<V;i++)
     {
