@@ -1,142 +1,152 @@
 #include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 using namespace std;
-struct Node
-{
-    int data;
-    Node *next;
-};
-Node *newptr,*ptr,*start,*rear;
 
-Node *create_new_node(int n)
-{
-    ptr = new Node;
-    ptr->data = n;
-    ptr->next = NULL;
-    return ptr;
-}
-void insert(Node *np)
-{
-    if(start == NULL)
-    {
-        start = rear = np;
+struct Node {
+    int data;
+    struct Node* next;
+    Node(int x) {
+        data = x;
+        next = NULL;
     }
-    else
-    {
-        rear->next = np;
-        rear = np;
+};
+void printList(Node* node) {
+    while (node != NULL) {
+        printf("%d ", node->data);
+        node = node->next;
     }
+    printf("\n");
 }
-void display(Node *np)
+
+Node *mergeSort(Node *);
+
+void push(struct Node** head_ref, int new_data) {
+    Node* new_node = new Node(new_data);
+
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
+}
+
+void merge(int *A,int l,int m,int r)
 {
-    Node *aux;
-    while(np != NULL)
+    int *B,*C;
+    int n1=m-l+1;
+    int n2=r-m;
+    B=new int[n1];
+    C=new int[n2];
+    int i=0;
+    int j=0;
+    int k=l;
+    for(i=0;i<n1;i++)
     {
-        cout<<np->data<<" ";
-        aux = np;
-        np = np->next;
-        delete(aux);
+        B[i]=A[l+i];
     }
-    cout<<endl;
-}
-void merge(Node *head,int l,int m,int r)
-{
-    Node *B,*R1,*C,*R2,*current;
-    B = C = R1 = R2 = NULL;
-    int n1 = m-l+1;
-    int n2 = r-m;
-    current = head;
-    for(int i=0;i<n1;i++)
-    {   
-        newptr = create_new_node(head->data);
-        if(B == NULL)
+    for(i=0;i<n2;i++)
+    {
+        C[i]=A[m+i+1];
+    }
+    i=0;
+    j=0;
+    while(i<n1 && j<n2)
+    {
+        if(B[i]<=C[j])
         {
-            B = R1 = newptr;
+            A[k]=B[i];
+            i++;
         }
         else
         {
-            R1->next = newptr;
-            R1 = newptr;
+            A[k]=C[j];
+            j++;
         }
-        head = head->next;
+        k++;
     }
-    for(int i=0;i<n2;i++)
-    {   
-        newptr = create_new_node(head->data);
-        if(C == NULL)
-        {
-            C = R2 = newptr;
-        }
-        else
-        {
-            R2->next = newptr;
-            R2 = newptr;
-        }
-        head = head->next;
-    }
-    head = current;
-    while(B != NULL && C != NULL)
+    while(i<n1)
     {
-        if(B->data <= C->data)
-        {
-            head->data = B->data;
-            newptr = B;
-            B = B->next;
-            delete(newptr);
-        }
-        else //if(C->data <= B->data)
-        {
-            head->data = C->data;
-            newptr = C;
-            C = C->next;
-            delete(newptr);
-        }
-        head = head->next;
+        A[k]=B[i];
+        i++;
+        k++;
     }
-    while(B != NULL)
+    while(j<n2)
     {
-        head->data = B->data;
-        newptr = B;
-        B = B->next;
-        head = head->next;
-        delete(newptr);
-    }
-    while(C != NULL)
-    {
-        head->data = C->data;
-        newptr = C;
-        C = C->next;
-        head = head->next;
-        delete(newptr);
+        A[k]=C[j];
+        j++;
+        k++;
     }
 }
-void MergeSort(Node *head,int l,int r)
+
+void mergesort(int *A,int l,int r)
 {
     if(l<r)
     {
         int m = (l+r);
         m = (m>>1);
-        //MergeSort(head,l,m);
-        //MergeSort(head,m+1,r);
-        merge(head,l,m,r);
+        mergesort(A,l,m);
+        mergesort(A,m+1,r);
+        merge(A,l,m,r);
     }
 }
-Node *mergeSort(Node *head, int l,int r)
-{   
-    MergeSort(head,0,r);
-    return head;
-}
-int main()
-{   
-    start = rear = NULL;
-    int n,k;
-    cin>>n;
-    for(int i=0;i<n;i++)
-    {
-        cin>>k;
-        newptr = create_new_node(k);
-        insert(newptr);
+
+int main() {
+    long test;
+    cin >> test;
+    while (test--) {
+        struct Node* a = NULL;
+        long n, tmp;
+        cin >> n;
+        for (int i = 0; i < n; i++) {
+            cin >> tmp;
+            push(&a, tmp);
+        }
+        a = mergeSort(a);
+        printList(a);
     }
-    start = mergeSort(start,0,n-1);
-    display(start);
     return 0;
 }
+
+void length(Node *h,int &c)
+{
+    c = 0;
+    while(h != NULL)
+    {
+        c++;
+        h = h->next;
+    }
+}
+
+void copyback(int *A,Node *h)
+{
+    int i = 0;
+    while(h != NULL)
+    {
+        h->data = A[i++];
+        h = h->next;
+    }
+    delete(A);
+}
+Node* mergeSort(Node* head) {
+    int n;
+    int *A;
+    length(head,n);
+    A = new int[n];
+    Node *h = head;
+    int i=0;
+    while(h != NULL)
+    {
+        A[i] = h->data;
+        h = h->next;
+        i++;
+    }
+    mergesort(A,0,n-1);
+    h = head;
+    i = 0;
+    while(h != NULL)
+    {
+        h->data = A[i];
+        i++;
+        h = h->next;
+    }
+    return head;
+}
+
