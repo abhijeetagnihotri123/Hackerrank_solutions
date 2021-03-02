@@ -39,18 +39,6 @@ void rotate(vector<vector<int>>& matrix)
     {
         return ;
     }
-    else if(n == 2)
-    {
-        int t1 = matrix[0][0];
-        int t2 = matrix[0][1];
-        int t3 = matrix[1][0];
-        int t4 = matrix[1][1];
-        matrix[0][0] = t2;
-        matrix[0][1] = t4;
-        matrix[1][0] = t1;
-        matrix[1][1] = t3;
-        return;
-    }
     else
     {   
         int m = n>>1;
@@ -64,13 +52,7 @@ void rotate(vector<vector<int>>& matrix)
             for(i=i0+1;i<n-1-i0;i++)
             {
                 swap(matrix[i0][i],matrix[n-i-1][i0]);
-            }
-            for(i=i0+1;i<n-1-i0;i++)
-            {
                 swap(matrix[i0][i],matrix[i][n-1-i0]);
-            }
-            for(i=i0+1;i<n-1-i0;i++)
-            {
                 swap(matrix[i][n-1-i0],matrix[n-1-i0][n-i-1]);
             }
             i0++;
