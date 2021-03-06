@@ -18,6 +18,7 @@ int main()
         cout<<a[i]<<" ";
     }
     delete(a);
+    return 0;
 }
 int partition(int *a,int l,int r)
 {
