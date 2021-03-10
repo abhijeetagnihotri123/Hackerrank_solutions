@@ -1,15 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
-/*
-When I saw the green tick and the phrase "Correct Answer"
-I did the same thing Rick Savage does after finding a precious artifact 
-in the show of Discovery Channel
-
-BOOOOOOOOOOOOOOM BAAAAAAAAAAABYYYYYYYYYYYYYYY!
-
-*/
 struct Node {
     int data;
     Node *left;
