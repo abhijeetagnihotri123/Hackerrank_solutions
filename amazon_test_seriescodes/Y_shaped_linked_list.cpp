@@ -64,39 +64,52 @@ int main()
     }
     return 0;
 }
-int length(Node *head)
+void length(Node *h1,Node *h2,int &c1,int &c2)
 {
-    int c = 0;
-    while(head != NULL)
+    c1 = c2 = 0;
+    while(h1 != NULL && h2 != NULL)
     {
-        head = head->next;
-        c++;
+        h1 = h1->next;
+        h2 = h2->next;
+        c1++;
+        c2++;
     }
-    return c;
+    while(h1 != NULL)
+    {
+        h1 = h1->next;
+        c1++;
+    }
+    while(h2 != NULL)
+    {
+        h2 = h2->next;
+        c2++;
+    }
 }
 int intersectPoint(Node* head1, Node* head2)
 {
-    int n1 = length(head1); 
-    int n2 = length(head2);
-    int d = (n1>=n2)?n1-n2:n2-n1;
-    if(n1 >= n2)
+    int l1,l2;
+    length(head1,head2,l1,l2);
+    int d = (l1>=l2)?((l1-l2):(l2-l1));
+    int result = -1;
+    int i=0;
+    if(l1>=l2)
     {
-        for(int i=0;i<d;i++)
-        {   
+        for(;i<d;i++)
+        {
             if(head1 == NULL)
             {
-                return -1;
+                break;
             }
-            head1 = head1->next;
+            head1 = head->next;
         }
     }
     else
     {
-        for(int i=0;i<d;i++)
+        for(;i<d;i++)
         {
             if(head2 == NULL)
             {
-                return -1;
+                break;
             }
             head2 = head2->next;
         }
@@ -105,10 +118,11 @@ int intersectPoint(Node* head1, Node* head2)
     {
         if(head1 == head2)
         {
-            return head1->data;
+            result = head1->data;
+            break;
         }
         head1 = head1->next;
         head2 = head2->next;
     }
-    return -1;
+    return result;
 }
