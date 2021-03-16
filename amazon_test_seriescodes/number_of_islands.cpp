@@ -1,9 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#include <bits/stdc++.h>
-using namespace std;
-
 int findIslands(vector<int> A[], int N, int M);
 
 int main() {
