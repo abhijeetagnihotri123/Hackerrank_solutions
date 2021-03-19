@@ -100,7 +100,7 @@ int intersectPoint(Node* head1, Node* head2)
             {
                 break;
             }
-            head1 = head->next;
+            head1 = head1->next;
         }
     }
     else
