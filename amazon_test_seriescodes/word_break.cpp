@@ -25,41 +25,29 @@ int main(){
 }
 int wordBreak(string A,vector<string> &B)
 {
+    int n = A.length();
+    vector<bool>dp(n+1,false);
     set<string>s;
-    int n = A.size();
-    for(int i=0;i<B.size();i++)
+    for(string x : B)
     {
-        s.insert(B[i]);
+        s.insert(x);
     }
-    vector<bool>dp(A.size()+1,false);
-    dp[0] = true;
-    for(int len=1;len<=n;len++)
+    string word;
+    dp[n] = true;
+    for(int i=n-1;i>=0;i--)
     {
-        if(!dp[len])
+        word = "";
+        for(int j=i;j<n;j++)
         {
-            string str = A.substr(0,len);
-            if(s.find(str) != s.end())
+            word += A[j];
+            if(s.find(word) != s.end())
             {
-                dp[len] = true;
-            }
-        }
-        if(dp[len] && len == n)
-        {
-            return true;
-            for(int j = len+1;j<=n;j++)
-            {
-                if(!dp[j])
+                if(dp[j+1])
                 {
-                    string str = A.substr(len,j-len);
-                    if(s.find(str) != s.end())
-                        {dp[j] = true;}
-                }
-                if(dp[j] && j==n)
-                {
-                    return true;
+                    dp[i] = true;
                 }
             }
         }
     }
-    return dp[n];
+    return dp[0];
 }
