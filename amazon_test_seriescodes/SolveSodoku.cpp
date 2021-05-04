@@ -86,9 +86,7 @@ void printGrid (int grid[N][N])
         {
             cout<<grid[i][j]<<" "; 
         }
-        
     }
-    
 }
 
 };
