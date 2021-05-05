@@ -27,7 +27,6 @@ void DFS_UTIL_STAMP(vector<int>adj[],int v,vector<bool>&visited,stack<int>&s)
     {
         if(!visited[adj[v][i]])
         {
-            visited[adj[v][i]]=true;
             DFS_UTIL_STAMP(adj,adj[v][i],visited,s);
         }
     }
@@ -40,7 +39,6 @@ void DFS_UTIL(vector<vector<int>>&graph,int v,vector<bool>&visited)
     {
         if(!visited[graph[v][i]])
         {
-            visited[graph[v][i]]=true;
             DFS_UTIL(graph,graph[v][i],visited);
         }
     }
