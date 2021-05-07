@@ -90,6 +90,22 @@ Node* search(Node* root, int key)
     return search(root->left, key);
 }
 
+
+ // } Driver Code Ends
+/*The structure of Node
+
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
 class Solution{
   public:
     // returns the inorder successor of the Node x in BST (rooted at 'root')
@@ -125,6 +141,8 @@ class Solution{
     }
 };
 
+// { Driver Code Starts.
+
 int main()
 {
     int t;
@@ -151,4 +169,4 @@ int main()
     }
     
     return 1;
-}
+}  // } Driver Code Ends
