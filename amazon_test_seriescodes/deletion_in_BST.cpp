@@ -125,18 +125,18 @@ Node *findMin(Node *root)
     return root;
 }
 Node *deleteNode(Node *root,  int X)
-{
+{   
     if(root == NULL)
     {
         return NULL;
     }
     else if(root->data < X)
     {
-        root->left = deleteNode(root->left,X);
+        root->right = deleteNode(root->right,X);
     }
     else if(root->data > X)
     {
-        root->right = deleteNode(root->right,X);   
+        root->left = deleteNode(root->left,X);   
     }
     else
     {
@@ -170,3 +170,4 @@ Node *deleteNode(Node *root,  int X)
         }
     }
 }
+
