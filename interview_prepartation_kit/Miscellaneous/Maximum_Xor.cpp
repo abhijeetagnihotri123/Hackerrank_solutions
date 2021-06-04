@@ -37,50 +37,26 @@ void insert(int n)
     if(root == NULL)
     {
         root = Create_new_node();
-        current = root;
-        for(int i=31;i>=0;i--)
-        {
-            int b = (n>>i) & 1;
-            if(b == 0)
-            {
-                if(current->nodes[0]==NULL)
-                {
-                    current->nodes[0] = Create_new_node();
-                }
-                current = current->nodes[0];
-            }
-            else
-            {
-                if(current->nodes[1]==NULL)
-                {
-                    current->nodes[1] = Create_new_node();
-                }
-                current = current->nodes[1];
-            }
-        }
     }
-    else
+    current = root;
+    for(int i=31;i>=0;i--)
     {
-        current = root;
-        for(int i=31;i>=0;i--)
+        int b = (n>>i) & 1;
+        if(b == 0)
         {
-            int b = (n>>i) & 1;
-            if(b == 0)
+            if(current->nodes[0]==NULL)
             {
-                if(current->nodes[0] == NULL)
-                {
-                    current->nodes[0] = Create_new_node();
-                }
-                current = current->nodes[0];
+                current->nodes[0] = Create_new_node();
             }
-            else
+            current = current->nodes[0];
+        }
+        else
+        {
+            if(current->nodes[1]==NULL)
             {
-                if(current->nodes[1] == NULL)
-                {
-                    current->nodes[1] = Create_new_node();
-                }
-                current = current->nodes[1];
+                current->nodes[1] = Create_new_node();
             }
+            current = current->nodes[1];
         }
     }
 }
