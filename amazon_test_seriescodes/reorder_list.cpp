@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 /* Linked list Node */
 struct Node {
@@ -13,9 +14,99 @@ struct Node {
     }
 };
 
-void reorderList(struct Node* head);
 
-/* Function to create a new Node with given data */
+class Solution{ 
+public:
+
+    Node *reverse(Node *head)
+    {
+        Node *prev = NULL;
+        Node *n = NULL;
+        while(head != NULL)
+        {
+            n = head->next;
+            head->next = prev;
+            prev = head;
+            head = n;
+        }   
+        return prev;
+    }
+
+    void advance_pointers(Node **Fast,Node **Slow)
+    {   
+        Node *fast = *Fast;
+        Node *slow = *Slow;
+        while(fast != NULL && fast->next != NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        *Fast = fast;
+        *Slow = slow;
+    }
+
+    void segregate_Lists(Node **Fast,Node **Slow,Node **next_pointer)
+    {
+        Node *fast = *Fast;
+        Node *slow = *Slow;
+        Node *np = *next_pointer;
+        if(fast == NULL)
+        {
+            fast = slow->next;
+            slow->next = NULL;
+        }
+        else
+        {
+            np = slow->next;
+            fast = np->next;
+            np->next = NULL;
+            slow->next = NULL;
+        }
+        *Fast = fast;
+        *Slow = slow;
+        *next_pointer = np;
+    }
+
+    void advance_adjust_pointers(Node **head,Node **fast,Node *np)
+    {
+        Node *n1 = NULL;
+        Node *n2 = NULL;
+        Node *h1 = *head;
+        Node *h2 = reverse(*fast);
+        while(h1->next != NULL && h2->next != NULL)
+        {
+            n1 = h1->next;
+            n2 = h2->next;
+            h1->next = h2;
+            h2->next = n1;
+            h1 = n1;
+            h2 = n2;
+        }
+        h1->next = h2;
+        h2->next = np;
+    }
+    
+    void reorderListUtil(Node* head)
+    {
+        Node *slow = head;
+        Node *fast = head->next->next;
+        Node *np = NULL;
+        advance_pointers(&fast,&slow);
+        segregate_Lists(&fast,&slow,&np);
+        advance_adjust_pointers(&head,&fast,np);
+    }
+    
+    void reorderList(Node* head) 
+    {
+        if(head->next != NULL && head->next->next != NULL)
+        {
+            reorderListUtil(head);
+        }
+    }
+};
+
+
+
 struct Node* newNode(int data) {
     struct Node* new_Node = new Node(data);
     new_Node->data = data;
@@ -56,80 +147,12 @@ int main(void) {
             temp->next = new Node(x);
             temp = temp->next;
         }
-
-        reorderList(head);
+        
+        Solution ob;
+        
+        ob.reorderList(head);
         printList(head);
         freeList(head);
     }
     return 0;
-}
-Node *reverse(Node *head)
-{
-    Node *prev = NULL;
-    Node *n = NULL;
-    Node *current=head;
-    while(current != NULL)
-    {
-        n = current->next;
-        current->next = prev;
-        prev = current;
-        current = n;
-    }
-    return prev;
-}
-void reorderList(Node* head) {
-    if(head == NULL || head->next == NULL || head->next->next == NULL)
-    {
-        // do nothing
-    }
-    else if(head->next->next->next == NULL)
-    {
-        Node *ptr = head->next;
-        head->next = ptr->next;
-        head->next->next = ptr;
-        ptr->next = NULL;
-    }
-    else if(head->next->next->next->next == NULL)
-    {
-        Node *ptr = head->next;
-        head->next = head->next->next->next;
-        head->next->next = ptr;
-        ptr->next->next = NULL;
-    }
-    else
-    {
-        Node *h1,*h2,*np,*n1,*n2;
-        h1 = head;
-        h2 = head->next->next;
-        while(h2 != NULL && h2->next != NULL)
-        {
-            h1 = h1->next;
-            h2 = h2->next->next;
-        }       
-        if(h2 == NULL)
-        {
-            h2 = h1->next;
-            h1->next = np = NULL;
-        }
-        else
-        {
-            h2 = h1->next->next;
-            np = h1->next;
-            h1->next = NULL;
-            np->next = NULL;
-        }
-        h1 = head;
-        h2 = reverse(h2);
-        while(h1->next != NULL && h2->next != NULL)
-        {   
-            n1 = h1->next;
-            n2 = h2->next;
-            h1->next = h2;
-            h2->next = n1;
-            h1 = n1;
-            h2 = n2;
-        }
-        h1->next = h2;
-        h2->next = np;
-    }
 }
