@@ -1,0 +1,159 @@
+#include <bits/stdc++.h>
+#define AUX_NODE_VALUE 0
+#define INITIAL_CACHE_COUNT 0
+using namespace std;
+
+struct Node
+{
+    int key, value;
+    Node *next , *prev;
+    Node()
+    {
+        this->key = this->value = 0;
+        this->next = this->prev = NULL;
+    }
+    Node(int key , int value)
+    {
+        this->next = this->prev = NULL;
+        this->key = key;
+        this->value = value;
+    }
+};
+
+class LRUCache{
+
+    private:    
+
+    map<int,Node*>mp;
+    Node *L = NULL; // this is auxillary node
+    int capacity;
+    int num_nodes;
+    public:
+    //Constructor for initializing the cache capacity with the given value.
+
+    LRUCache(int cap)
+    {
+        L = new Node(AUX_NODE_VALUE , AUX_NODE_VALUE);
+        L->next = L;
+        this->capacity = cap;
+        this->num_nodes = INITIAL_CACHE_COUNT;
+        // code here
+    }
+    
+    //Function to return value corresponding to the key.
+
+    Node *findbyKey(int key)
+    {
+        auto it = mp.find(key);
+        Node *node = NULL;
+
+        if(it != mp.end())
+        {
+            node = it->second;
+        }
+
+        return node;
+    }
+
+    void insertByReference(Node *np)
+    {
+        np->next = L->next;
+        np->prev = L;
+        np->next->prev = np;
+        L->next = np;
+        //display();
+    }
+
+    void adjustBeforeAfterPointers(Node *np)
+    {
+        np->prev->next = np->next;
+        np->next->prev = np->prev;
+        np->next = np->prev = NULL;
+    }
+
+    void adjustOverallPointer(Node *np)
+    {
+        adjustBeforeAfterPointers(np);
+        insertByReference(np);
+    }
+    
+    void insertByValues(int key , int value)
+    {
+        Node *np = new Node(key , value);
+        mp[key] = np;
+        insertByReference(np);
+    }
+
+    int GET(int key)
+    {
+        Node *np = findbyKey(key);
+        int result = -1;
+
+        if(np != NULL)
+        {
+            result = np->value;
+            adjustOverallPointer(np);
+        }
+
+        return result;
+    }
+
+    //Function for storing key-value pair.
+
+    void SET(int key, int value)
+    {
+        Node *np = findbyKey(key);
+        if(np != NULL)
+        {   
+            np->value = value;
+            adjustOverallPointer(np);
+        }
+        else
+        {
+            insertByValues(key , value);
+
+            if(this->num_nodes <= this->capacity - 1)
+            {
+                this->num_nodes++;
+            }
+            else
+            {
+                np = L->prev;
+                mp.erase(np->key);
+                adjustBeforeAfterPointers(np);
+            }
+        }
+    }
+};
+
+int main() {
+    
+    int queries;
+    cin >> queries;
+    
+    
+    int capacity;
+    cin >> capacity;
+    
+    LRUCache *cache = new LRUCache(capacity);
+    while (queries--)
+        {
+            string q;
+            cin >> q;
+            if (q == "set")
+            {
+                int key;
+                cin >> key;
+                int value;
+                cin >> value;
+                cache->SET(key, value);
+            }
+            else
+            {
+                int key;
+                cin >> key;
+                cout << cache->GET(key) << endl;
+            }
+        }
+    return 0;
+}
